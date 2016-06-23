@@ -7,7 +7,7 @@ public class GameObject {
 		METROID,BULLET,PLAYER;
 	}
 	
-	protected float speed = 0.3f;
+	protected float speed = 0.1f;
 	private int height, width, x, y, life, maxlife, xm, ym;
 	protected boolean isRemovable = false;
 	private float tick = 0f;
@@ -109,15 +109,15 @@ public class GameObject {
 	}
 	
 	public void setXMotion(int xm) {
-		this.xm += xm;
-	}
-	
-	public void setYMotion(int ym) {
-		this.ym += ym;
+		this.xm = xm;
 	}
 
 	public int getYMotion() {
 		return ym;
+	}
+	
+	public void setYMotion(int ym) {
+		this.ym = ym;
 	}
 
 	public void bounds() {
@@ -136,12 +136,8 @@ public class GameObject {
 	}
 	
 	public void move() {
-		if (Math.abs(xm) > 0) {
-			x += xm;
-		}
-		if (Math.abs(ym) > 0) {
-			y += ym;
-		}
+		x += xm;
+		y += ym;
 	}
 
 	public void update(float delta) {

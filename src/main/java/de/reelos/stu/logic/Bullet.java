@@ -20,6 +20,14 @@ public class Bullet extends GameObject {
 		}
 	}
 	
+	public void setSpeed(float speed) {
+		super.speed = speed;
+	}
+	
+	public float getSpeed() {
+		return super.speed;
+	}
+	
 	@Override
 	public Color getColor() {
 		return Color.RED;
