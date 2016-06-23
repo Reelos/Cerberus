@@ -71,9 +71,11 @@ public class GameWorld {
 			int x = posRandom.nextInt(WORLD_X);
 			int y = posRandom.nextInt(WORLD_Y);
 			int life = posRandom.nextInt(height + width) + 1;
-			int xm = posRandom.nextInt(10) - 5;
-			int ym = posRandom.nextInt(10) - 5;
-			GameObject temp = new GameObject(x, y, height, width, life, xm, ym);
+			int dirX = posRandom.nextInt(3) - 2;
+			int dirY = posRandom.nextInt(3) - 2;
+			float xm = posRandom.nextFloat() - 0.9f;
+			float ym = posRandom.nextFloat() - 0.9f;
+			GameObject temp = new GameObject(x, y, height, width, life, dirX, dirY ,xm, ym);
 			for (GameObject go : objects) {
 				if (temp.checkPos(go)) {
 					ret = spawnObject();

@@ -4,31 +4,31 @@ import java.awt.Color;
 
 public class GameObject {
 	public enum GOType {
-		METROID,BULLET,PLAYER;
+		METROID, BULLET, PLAYER;
 	}
-	
-	protected float speed = 0.1f;
-	private int height, width, x, y, life, maxlife, xm, ym;
+
+	protected float speed = 0.1f, xm = 0.1f, ym = 0.1f, accX = 0f, accY = 0f;
+	private int height, width, x, y, life, maxlife,dirX,dirY;
 	protected boolean isRemovable = false;
 	private float tick = 0f;
 	private GameObject lastHitted = null;
 
-	public GameObject(int x, int y, int height, int width, int life, int xm, int ym) {
+	public GameObject(int x, int y, int height, int width, int life, int dirX, int dirY, float xm, float ym) {
 		this.height = height;
 		this.width = width;
 		this.x = x;
 		this.y = y;
 		this.life = life;
 		this.maxlife = life;
-		this.xm = xm;
-		this.ym = ym;
+		this.dirX = dirX;
+		this.dirY = dirY;
 	}
 
 	public void hit(GameObject obj) {
 		if (checkPos(obj)) {
 			lastHitted = obj;
-			if(obj.getType() != GOType.BULLET) {
-				int ouch = (int)(life * 0.1);
+			if (obj.getType() != GOType.BULLET) {
+				int ouch = (int) (life * 0.1);
 				life -= obj.getLife() * 0.1;
 				obj.change(-ouch);
 				if (life <= 0) {
@@ -46,6 +46,14 @@ public class GameObject {
 		return maxlife;
 	}
 	
+	public void setXMotion(int x) {
+		dirX = x;
+	}
+	
+	public void setYMotion(int y) {
+		dirY = y;
+	}
+
 	public GameObject lastHit() {
 		return lastHitted;
 	}
@@ -99,27 +107,6 @@ public class GameObject {
 		return height;
 	}
 
-	public void motion(int x, int y) {
-		xm = x;
-		ym = y;
-	}
-
-	public int getXMotion() {
-		return xm;
-	}
-	
-	public void setXMotion(int xm) {
-		this.xm = xm;
-	}
-
-	public int getYMotion() {
-		return ym;
-	}
-	
-	public void setYMotion(int ym) {
-		this.ym = ym;
-	}
-
 	public void bounds() {
 		if (x > GameWorld.WORLD_X || x + width < 0 || y > GameWorld.WORLD_Y || y + height < 0 || life <= 0) {
 			isRemovable = true;
@@ -128,22 +115,30 @@ public class GameObject {
 
 	public boolean checkPos(GameObject obj) {
 		boolean ret = false;
-		if(obj != null)
-		if (x + width >= obj.getX() && x <= obj.getX() + obj.getWidth())
-			if (y + height >= obj.getY() && y <= obj.getY() +  obj.getHeight())
-				ret = true;
+		if (obj != null)
+			if (x + width >= obj.getX() && x <= obj.getX() + obj.getWidth())
+				if (y + height >= obj.getY() && y <= obj.getY() + obj.getHeight())
+					ret = true;
 		return ret;
 	}
-	
-	public void move() {
-		x += xm;
-		y += ym;
+
+	public void move(float delta) {
+		accX += delta;
+		accY += delta;
+		if(accX >= xm) {
+			x += dirX;
+			accX = 0;
+		}
+		if(accY >= ym) {
+			y += dirY;
+			accY = 0;
+		}
 	}
 
 	public void update(float delta) {
 		tick += delta;
+		move(delta);
 		if (tick >= speed) {
-			move();
 			bounds();
 			tick = 0f;
 		}
@@ -155,11 +150,11 @@ public class GameObject {
 
 	public void change(int val) {
 		life += val;
-		if(life <= 0) {
+		if (life <= 0) {
 			isRemovable = true;
 		}
 	}
-	
+
 	public GOType getType() {
 		return GOType.METROID;
 	}

@@ -7,7 +7,7 @@ public class Bullet extends GameObject {
 	private int power = 0;
 
 	public Bullet(int x, int y, int power) {
-		super(x, y, 4, 10, 1, 3, 0);
+		super(x, y, 4, 10, 1, 1, 0, 0.001f, 0f);
 		this.power = power;
 		super.speed = 0.01f;
 	}

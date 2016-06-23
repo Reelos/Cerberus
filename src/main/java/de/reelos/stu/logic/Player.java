@@ -8,13 +8,11 @@ public class Player extends GameObject {
 	private float shootSpeed = 0.01f;
 	private float shootTimeOut = 0.5f;
 	private boolean fireState = false;
-	private float xAcc;
-	private float yAcc;
 	private float lastShoot;
 	private GameWorld parent;
 	
 	public Player(GameWorld parent) {
-		super(GameWorld.WORLD_X/5-10, GameWorld.WORLD_Y/2-20, 20, 40, 120, 0, 0);
+		super(GameWorld.WORLD_X/5-10, GameWorld.WORLD_Y/2-20, 20, 40, 120, 0, 0, 0, 0);
 		this.parent = parent;
 	}
 	
@@ -53,8 +51,6 @@ public class Player extends GameObject {
 	public void setFire(boolean state) {
 		fireState = state;
 	}
-	
-	move
 	
 	public void update(float delta) {
 		super.update(delta);
