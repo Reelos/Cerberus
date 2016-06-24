@@ -1,6 +1,8 @@
 package de.reelos.stu.logic;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends GameObject {
 
@@ -11,8 +13,10 @@ public class Player extends GameObject {
 	private float lastShoot;
 	private GameWorld parent;
 	
+	private List<Boost> boostList = new ArrayList<>();
+	
 	public Player(GameWorld parent) {
-		super(GameWorld.WORLD_X/5-10, GameWorld.WORLD_Y/2-20, 20, 40, 120, 0, 0, 0, 0);
+		super(GameWorld.WORLD_X/5-10, GameWorld.WORLD_Y/2-20, 20, 40, 120, 0, 0, 0.01f, 0.01f);
 		this.parent = parent;
 	}
 	
@@ -32,12 +36,17 @@ public class Player extends GameObject {
 		return ret;
 	}
 	
-	public int getXSpeed() {
-		return 0;
+	public int boostSpeed() {
+		// TODO Calc SpeedBoost
+		return 1;
 	}
 	
-	public int getYSpeed() {
-		return 0;
+	public float getXSpeed() {
+		return xm / boostSpeed();
+	}
+	
+	public float getYSpeed() {
+		return ym / boostSpeed();
 	}
 
 	public float getShootTimeOut() {

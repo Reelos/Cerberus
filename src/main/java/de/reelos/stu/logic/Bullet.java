@@ -21,7 +21,7 @@ public class Bullet extends GameObject {
 	}
 	
 	public void setSpeed(float speed) {
-		super.speed = speed;
+		super.xm = speed;
 	}
 	
 	public float getSpeed() {

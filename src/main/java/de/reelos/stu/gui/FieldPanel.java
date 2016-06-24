@@ -99,9 +99,6 @@ public class FieldPanel extends JPanel implements Runnable {
 			GameObject go = world.getObjects().get(i);
 			g.setColor(go.getColor());
 			g.fillRect(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			g.setColor(Color.BLACK);
-			g.drawString(String.valueOf(go.getLife()), go.getX() + 2,
-					go.getY() + 15);
 		}
 
 		g.setColor(Color.WHITE);

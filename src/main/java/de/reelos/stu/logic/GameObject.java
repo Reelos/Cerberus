@@ -22,6 +22,8 @@ public class GameObject {
 		this.maxlife = life;
 		this.dirX = dirX;
 		this.dirY = dirY;
+		this.xm = xm;
+		this.ym = ym;
 	}
 
 	public void hit(GameObject obj) {
