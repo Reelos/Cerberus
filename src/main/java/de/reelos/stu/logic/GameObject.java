@@ -8,7 +8,7 @@ public class GameObject {
 	}
 
 	protected float speed = 0.1f, xm = 0.1f, ym = 0.1f, accX = 0f, accY = 0f;
-	private int height, width, x, y, life, maxlife,dirX,dirY;
+	private int height, width, x, y, life, maxlife, dirX, dirY;
 	protected boolean isRemovable = false;
 	private float tick = 0f;
 	private GameObject lastHitted = null;
@@ -47,11 +47,11 @@ public class GameObject {
 	public int getMaxLife() {
 		return maxlife;
 	}
-	
+
 	public void setXMotion(int x) {
 		dirX = x;
 	}
-	
+
 	public void setYMotion(int y) {
 		dirY = y;
 	}
@@ -127,11 +127,11 @@ public class GameObject {
 	public void move(float delta) {
 		accX += delta;
 		accY += delta;
-		if(accX >= xm) {
+		if (accX >= xm) {
 			x += dirX;
 			accX = 0;
 		}
-		if(accY >= ym) {
+		if (accY >= ym) {
 			y += dirY;
 			accY = 0;
 		}

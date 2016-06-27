@@ -82,8 +82,7 @@ public class FieldPanel extends JPanel implements Runnable {
 
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				world.getObjects().add(
-						new Bullet(evt.getX() - 2, evt.getY() - 5, 20));
+				world.getObjects().add(new Bullet(evt.getX() - 2, evt.getY() - 5, 20));
 			}
 		};
 		addMouseListener(adapter);
@@ -104,13 +103,10 @@ public class FieldPanel extends JPanel implements Runnable {
 		g.setColor(Color.WHITE);
 		g.drawString("Score: " + world.getScore(), 20, GameWorld.WORLD_Y - 40);
 		g.setColor(Color.RED);
-		g.drawRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64,
-				100, 20);
-		g.fillRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64,
-				(int) (100d * player.getLife() / player.getMaxLife()), 20);
+		g.drawRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64, 100, 20);
+		g.fillRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64, (int) (100d * player.getLife() / player.getMaxLife()), 20);
 		g.setColor(Color.WHITE);
-		g.drawString("( " + player.getLife() + " | " + player.getMaxLife()
-				+ " )", GameWorld.WORLD_X - 150, GameWorld.WORLD_Y - 50);
+		g.drawString("( " + player.getLife() + " | " + player.getMaxLife() + " )", GameWorld.WORLD_X - 150, GameWorld.WORLD_Y - 50);
 	}
 
 	@Override
