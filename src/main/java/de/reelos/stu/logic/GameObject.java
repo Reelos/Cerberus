@@ -29,13 +29,11 @@ public class GameObject {
 	public void hit(GameObject obj) {
 		if (checkPos(obj)) {
 			lastHitted = obj;
-			if (obj.getType() != GOType.BULLET) {
-				int ouch = (int) (life * 0.1);
-				life -= obj.getLife() * 0.1;
-				obj.change(-ouch);
-				if (life <= 0) {
-					isRemovable = true;
-				}
+			int ouch = (int) (life * 0.1);
+			life -= obj.getLife() * 0.1;
+			obj.change(-ouch);
+			if (life <= 0) {
+				isRemovable = true;
 			}
 		}
 	}
