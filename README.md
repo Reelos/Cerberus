@@ -6,10 +6,10 @@ It's just a "Let's shoot Asteriods" at this point
 The Controls are the Arrow Keys and Space to fire
 
 There are four boosts:
-    + **Red**    - DamageBoost
-    + **Cyan**   - FireRate
-    + **Orange** - BulletSpeed
-    + **Green**  - ShipSpeed
++ **Red**    - DamageBoost
++ **Cyan**   - FireRate
++ **Orange** - BulletSpeed
++ **Green**  - ShipSpeed
 
 This is everything so far.
 
