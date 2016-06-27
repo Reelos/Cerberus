@@ -1,5 +1,5 @@
 # Cerberus
-This one should be my first Game
+This one should be my first Game  
 It's just a "Let's shoot Asteriods" at this point
 
 ## Controls
