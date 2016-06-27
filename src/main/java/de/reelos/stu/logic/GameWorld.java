@@ -26,14 +26,13 @@ public class GameWorld {
 				objects.add(tmp);
 				oc++;
 			}
-		}
-		if(boostRandom.nextInt(10) <= boostChance) {
-			Boost tmp = spawnBoost();
-			if(tmp != null) {
-				objects.add(tmp);
+			if (boostRandom.nextInt(10) <= boostChance) {
+				Boost boost = spawnBoost();
+				if (boost != null) {
+					objects.add(boost);
+				}
 			}
 		}
-		
 
 		for (int i = 0; i < objects.size(); i++) {
 			GameObject go = objects.get(i);
@@ -50,7 +49,8 @@ public class GameWorld {
 			if (go.isRemovable()) {
 				objects.remove(go);
 				if (go.lastHit() != null)
-					if (go.getType() == GOType.METROID && (go.lastHit().getType() == GOType.BULLET || go.lastHit().getType() == GOType.PLAYER)
+					if (go.getType() == GOType.METROID
+							&& (go.lastHit().getType() == GOType.BULLET || go.lastHit().getType() == GOType.PLAYER)
 							&& go.getLife() <= 0) {
 						score++;
 					}
@@ -85,6 +85,7 @@ public class GameWorld {
 			for (GameObject go : objects) {
 				if (temp.checkPos(go)) {
 					ret = spawnObject();
+					return ret;
 				}
 			}
 			ret = temp;
@@ -92,12 +93,16 @@ public class GameWorld {
 		spawnTime = 0f;
 		return ret;
 	}
-	
+
+	public Boost boost() {
+		return spawnBoost();
+	}
+
 	private Boost spawnBoost() {
 		Boost ret = null;
 		int x = posRandom.nextInt(WORLD_X);
 		int y = posRandom.nextInt(WORLD_Y);
-		ret = new Boost(x,y,10,10,BoostType.values()[posRandom.nextInt(3)]);
+		ret = new Boost(x, y, 10, 10, BoostType.values()[posRandom.nextInt(BoostType.values().length)]);
 		return ret;
 	}
 }

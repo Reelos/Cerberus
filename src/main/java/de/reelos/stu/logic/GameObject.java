@@ -4,11 +4,11 @@ import java.awt.Color;
 
 public class GameObject {
 	public enum GOType {
-		METROID, BULLET, PLAYER;
+		METROID, BULLET, PLAYER, BOOST;
 	}
 
 	protected float speed = 0.1f, xm = 0.1f, ym = 0.1f, accX = 0f, accY = 0f;
-	private int height, width, x, y, life, maxlife, dirX, dirY;
+	protected int height, width, x, y, life, maxlife, dirX, dirY;
 	protected boolean isRemovable = false;
 	private float tick = 0f;
 	private GameObject lastHitted = null;

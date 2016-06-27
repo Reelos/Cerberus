@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.reelos.stu.logic.Boost.BoostType;
+
 public class Player extends GameObject {
 
 	private int firePower = 10;
@@ -31,30 +33,21 @@ public class Player extends GameObject {
 	}
 
 	public Bullet fire() {
-		Bullet ret = new Bullet(getX() + getWidth() + 3, getY() + getHeight() / 2 - 1, firePower);
+		Bullet ret = new Bullet(this, (int)(firePower * (1 + getDmgBoost())));
 		ret.setSpeed(shootSpeed);
 		return ret;
 	}
 
-	public int boostSpeed() {
-		// TODO Calc SpeedBoost
-		return 1;
-	}
-
 	public float getXSpeed() {
-		return xm / boostSpeed();
+		return xm / (1 + getAccBoost());
 	}
 
 	public float getYSpeed() {
-		return ym / boostSpeed();
+		return ym / (1 + getAccBoost());
 	}
 
 	public float getShootTimeOut() {
-		return shootTimeOut;
-	}
-
-	public void setShootTimeOut(float shootTimeOut) {
-		this.shootTimeOut = shootTimeOut;
+		return shootTimeOut / ( 1 + getFireRateBoost());
 	}
 
 	public void setFire(boolean state) {
@@ -69,17 +62,53 @@ public class Player extends GameObject {
 		super.update(delta);
 		lastShoot += delta;
 		for (int i = 0; i < boostList.size(); i++) {
-			if (boostList.get(i).inActive()) {
-				boostList.remove(i);
+			Boost boost = boostList.get(i); 
+			if (boost.inActive()) {
+				boostList.remove(boost);
 			}
-			boostList.get(i).update(delta);
+			boost.update(delta);
 		}
 		if (fireState) {
-			if (lastShoot >= shootTimeOut) {
+			if (lastShoot >= getShootTimeOut()) {
 				parent.getObjects().add(fire());
 				lastShoot = 0;
 			}
 		}
+	}
+	
+	public long getAccBoost(){
+		return boostList.stream().filter(b -> b.getBoostType() == BoostType.ACCELARATION).count();
+	}
+	
+	public long getDmgBoost(){
+		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTDAMAGE).count();
+	}
+	
+	public long getFireRateBoost(){
+		return boostList.stream().filter(b -> b.getBoostType() == BoostType.FIRERATE).count();
+	}
+	
+	public long getShootAccBoost(){
+		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTACCELARATION).count();
+	}
+	
+	@Override
+	public void move(float delta) {
+		accX += delta;
+		accY += delta;
+		if (accX >= getXSpeed()) {
+			x += dirX;
+			accX = 0;
+		}
+		if (accY >= getYSpeed()) {
+			y += dirY;
+			accY = 0;
+		}
+	}
+	
+	@Override
+	public void hit(GameObject obj) { 
+		
 	}
 
 }

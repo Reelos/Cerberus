@@ -5,16 +5,18 @@ import java.awt.Color;
 public class Bullet extends GameObject {
 
 	private int power = 0;
+	private GameObject parent;
 
-	public Bullet(int x, int y, int power) {
-		super(x, y, 2, 2, 1, 1, 0, 0.001f, 0f);
-		this.power = power;
+	public Bullet(GameObject parent, int power) {
+		super(parent.getX() + parent.getWidth() + 3, parent.getY() + parent.getHeight() / 2 - 1, 2, 2, 1, 1, 0, 0.001f, 0f);
 		super.speed = 0.01f;
+		this.power = power;
+		this.parent = parent;
 	}
 
 	@Override
 	public void hit(GameObject obj) {
-		if (checkPos(obj)) {
+		if (checkPos(obj) && obj != parent) {
 			obj.change(-power);
 			isRemovable = true;
 		}
@@ -35,12 +37,12 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void change(int change) {
-		// Not Used
+		// IMMORTAL OBJECT
 	}
 
 	@Override
 	public int getLife() {
-		return 0;
+		return power;
 	}
 
 	@Override

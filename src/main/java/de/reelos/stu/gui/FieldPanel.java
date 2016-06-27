@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import de.reelos.stu.logic.Bullet;
+import de.reelos.stu.logic.Boost.BoostType;
 import de.reelos.stu.logic.GameObject;
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Player;
@@ -82,7 +82,7 @@ public class FieldPanel extends JPanel implements Runnable {
 
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				world.getObjects().add(new Bullet(evt.getX() - 2, evt.getY() - 5, 20));
+				world.getObjects().add(world.boost());
 			}
 		};
 		addMouseListener(adapter);
@@ -99,14 +99,39 @@ public class FieldPanel extends JPanel implements Runnable {
 			g.setColor(go.getColor());
 			g.fillRect(go.getX(), go.getY(), go.getWidth(), go.getHeight());
 		}
-
 		g.setColor(Color.WHITE);
 		g.drawString("Score: " + world.getScore(), 20, GameWorld.WORLD_Y - 40);
 		g.setColor(Color.RED);
 		g.drawRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64, 100, 20);
-		g.fillRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64, (int) (100d * player.getLife() / player.getMaxLife()), 20);
+		g.fillRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 64,
+				(int) (100d * player.getLife() / player.getMaxLife()), 20);
 		g.setColor(Color.WHITE);
-		g.drawString("( " + player.getLife() + " | " + player.getMaxLife() + " )", GameWorld.WORLD_X - 150, GameWorld.WORLD_Y - 50);
+		g.drawString("( " + player.getLife() + " | " + player.getMaxLife() + " )", GameWorld.WORLD_X - 150,
+				GameWorld.WORLD_Y - 50);
+		if (player.getAccBoost() > 0) {
+			g.setColor(BoostType.ACCELARATION.color());
+			g.fillRect(GameWorld.WORLD_X - 200, GameWorld.WORLD_Y - 64, 20, 20);
+			g.setColor(Color.BLACK);
+			g.drawString(player.getAccBoost()+"", GameWorld.WORLD_X - 190, GameWorld.WORLD_Y - 50);
+		}
+		if (player.getDmgBoost() > 0) {
+			g.setColor(BoostType.SHOOTDAMAGE.color());
+			g.fillRect(GameWorld.WORLD_X - 220, GameWorld.WORLD_Y - 64, 20, 20);
+			g.setColor(Color.BLACK);
+			g.drawString(player.getDmgBoost()+"", GameWorld.WORLD_X - 210, GameWorld.WORLD_Y - 50);
+		}
+		if (player.getFireRateBoost() > 0) {
+			g.setColor(BoostType.FIRERATE.color());
+			g.fillRect(GameWorld.WORLD_X - 240, GameWorld.WORLD_Y - 64, 20, 20);
+			g.setColor(Color.BLACK);
+			g.drawString(player.getFireRateBoost()+"", GameWorld.WORLD_X - 230, GameWorld.WORLD_Y - 50);
+		}
+		if (player.getShootAccBoost() > 0) {
+			g.setColor(BoostType.SHOOTACCELARATION.color());
+			g.fillRect(GameWorld.WORLD_X - 260, GameWorld.WORLD_Y - 64, 20, 20);
+			g.setColor(Color.BLACK);
+			g.drawString(player.getShootAccBoost()+"", GameWorld.WORLD_X - 250, GameWorld.WORLD_Y - 50);
+		}
 	}
 
 	@Override
