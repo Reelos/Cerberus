@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import de.reelos.stu.gui.FieldPanel;
 import de.reelos.stu.logic.Boost.BoostType;
 import de.reelos.stu.logic.GameObject.GOType;
 
@@ -11,21 +12,22 @@ public class GameWorld {
 	public static final int WORLD_X = 600;
 	public static final int WORLD_Y = 450;
 
+	protected float spawnTime = 0f, spawnPause = 1.0f;
+	protected FieldPanel parent;
 	private int score = 0, boostChance = 1;
-	private float spawnTime = 0f;
-	private float spawnPause = 1.0f;
 	private Random posRandom = new Random(), boostRandom = new Random();
 	private List<GameObject> objects = new ArrayList<>();
 	private int oc = 0;
+	
+	
+	public GameWorld(FieldPanel parent) {
+		this.parent = parent;
+	}
 
 	public void update(float delta) {
 		spawnTime += delta;
 		if (spawnTime >= spawnPause) {
-			GameObject tmp = spawnObject();
-			if (tmp != null && oc < 20) {
-				objects.add(tmp);
-				oc++;
-			}
+			spawnWave();
 			if (boostRandom.nextInt(10) <= boostChance) {
 				Boost boost = spawnBoost();
 				if (boost != null) {
@@ -68,6 +70,15 @@ public class GameWorld {
 	public List<GameObject> getObjects() {
 		return objects;
 	}
+	
+	protected void spawnWave() {
+		GameObject tmp = spawnObject();
+		if (tmp != null && oc < 20) {
+			objects.add(tmp);
+			oc++;
+		}
+		resetTime();
+	}
 
 	private GameObject spawnObject() {
 		GameObject ret = null;
@@ -90,8 +101,11 @@ public class GameWorld {
 			}
 			ret = temp;
 		}
-		spawnTime = 0f;
 		return ret;
+	}
+	
+	public void resetTime() {
+		spawnTime = 0f;
 	}
 
 	public Boost boost() {

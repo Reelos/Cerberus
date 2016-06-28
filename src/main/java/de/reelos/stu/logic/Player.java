@@ -8,7 +8,8 @@ import de.reelos.stu.logic.Boost.BoostType;
 
 public class Player extends GameObject {
 
-	private int firePower = 10;
+	private int firePower = 20;
+	private int shoots = 5;
 	private float shootSpeed = 0.01f;
 	private float shootTimeOut = 0.5f;
 	private boolean fireState = false;
@@ -31,11 +32,35 @@ public class Player extends GameObject {
 	public GOType getType() {
 		return GOType.PLAYER;
 	}
+	
+	public void setParent(GameWorld world) {
+		
+	}
 
-	public Bullet fire() {
-		Bullet ret = new Bullet(this, (int)(firePower * (1 + getDmgBoost())));
-		ret.setSpeed(shootSpeed);
-		return ret;
+	public void fire() {
+		Bullet ret = null;
+		switch (shoots) {
+		case 5:
+			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())), 1, -1, 0.05f);
+			ret.setSpeed(shootSpeed);
+			parent.getObjects().add(ret);
+		case 4:
+			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())), 1, 1, 0.05f);
+			ret.setSpeed(shootSpeed);
+			parent.getObjects().add(ret);
+		case 3:
+			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())), 1, -1);
+			ret.setSpeed(shootSpeed);
+			parent.getObjects().add(ret);
+		case 2:
+			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())), 1, 1);
+			ret.setSpeed(shootSpeed);
+			parent.getObjects().add(ret);
+		case 1:
+			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())));
+			ret.setSpeed(shootSpeed);
+			parent.getObjects().add(ret);
+		}
 	}
 
 	public float getXSpeed() {
@@ -47,7 +72,7 @@ public class Player extends GameObject {
 	}
 
 	public float getShootTimeOut() {
-		return shootTimeOut / ( 1 + getFireRateBoost());
+		return shootTimeOut / (1 + getFireRateBoost());
 	}
 
 	public void setFire(boolean state) {
@@ -62,7 +87,7 @@ public class Player extends GameObject {
 		super.update(delta);
 		lastShoot += delta;
 		for (int i = 0; i < boostList.size(); i++) {
-			Boost boost = boostList.get(i); 
+			Boost boost = boostList.get(i);
 			if (boost.inActive()) {
 				boostList.remove(boost);
 			}
@@ -70,28 +95,28 @@ public class Player extends GameObject {
 		}
 		if (fireState) {
 			if (lastShoot >= getShootTimeOut()) {
-				parent.getObjects().add(fire());
+				fire();
 				lastShoot = 0;
 			}
 		}
 	}
-	
-	public long getAccBoost(){
+
+	public long getAccBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.ACCELARATION).count();
 	}
-	
-	public long getDmgBoost(){
+
+	public long getDmgBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTDAMAGE).count();
 	}
-	
-	public long getFireRateBoost(){
+
+	public long getFireRateBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.FIRERATE).count();
 	}
-	
-	public long getShootAccBoost(){
+
+	public long getShootAccBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTACCELARATION).count();
 	}
-	
+
 	@Override
 	public void move(float delta) {
 		accX += delta;
@@ -105,10 +130,10 @@ public class Player extends GameObject {
 			accY = 0;
 		}
 	}
-	
+
 	@Override
-	public void hit(GameObject obj) { 
-		
+	public void hit(GameObject obj) {
+
 	}
 
 }

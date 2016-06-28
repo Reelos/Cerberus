@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class GameObject {
 	public enum GOType {
-		METROID, BULLET, PLAYER, BOOST;
+		METROID, BULLET, PLAYER, BOOST, ENEMY;
 	}
 
 	protected float speed = 0.1f, xm = 0.1f, ym = 0.1f, accX = 0f, accY = 0f;

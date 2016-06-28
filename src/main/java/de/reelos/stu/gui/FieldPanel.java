@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import de.reelos.stu.MainWindow;
 import de.reelos.stu.logic.Boost.BoostType;
 import de.reelos.stu.logic.GameObject;
 import de.reelos.stu.logic.GameWorld;
@@ -34,7 +35,6 @@ public class FieldPanel extends JPanel implements Runnable {
 			if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
 				player.setFire(true);
 			}
-			System.out.println("Some Key was pressed!");
 		}
 
 		@Override
@@ -54,7 +54,6 @@ public class FieldPanel extends JPanel implements Runnable {
 			if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
 				player.setFire(false);
 			}
-			System.out.println("Some Key was released!");
 		}
 	}
 
@@ -70,10 +69,12 @@ public class FieldPanel extends JPanel implements Runnable {
 	private Player player;
 	private MouseAdapter adapter;
 	public KeyAdapter control = new PlayerControl();
+	private MainWindow parent;
 
-	public FieldPanel() {
+	public FieldPanel(MainWindow parent) {
+		this.parent = parent;
 		thread = new Thread(this);
-		world = new GameWorld();
+		world = new GameWorld(this);
 		player = new Player(world);
 		world.getObjects().add(player);
 		delta = 0f;
@@ -142,15 +143,35 @@ public class FieldPanel extends JPanel implements Runnable {
 
 			world.update(delta);
 			this.repaint();
-
-			if (world.getScore() >= 20) {
-				running = false;
-			}
 		}
+	}
+	
+	public void setLevel(GameWorld world) {
+		this.world = world;
+		player = new Player(world);
+		world.getObjects().add(player);
+	}
+	
+	public GameWorld getLevel() {
+		return world;
 	}
 
 	public void start() {
 		running = true;
 		thread.start();
+	}
+	
+	public void stop() {
+		running = false;
+	}
+	
+	public boolean isRunning() {
+		return running;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+		player.setParent(world);
+		world.getObjects().add(player);
 	}
 }
