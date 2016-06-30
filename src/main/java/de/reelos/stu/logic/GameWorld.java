@@ -119,4 +119,11 @@ public class GameWorld {
 		ret = new Boost(x, y, 10, 10, BoostType.values()[posRandom.nextInt(BoostType.values().length)]);
 		return ret;
 	}
+	
+	public void setPlayer(Player player) {
+		if(objects.stream().anyMatch(p -> p.getType() == GOType.PLAYER)) {
+			objects.remove(objects.stream().filter(p -> p.getType() == GOType.PLAYER).findFirst().orElse(null));
+		}
+		objects.add(player);
+	}
 }

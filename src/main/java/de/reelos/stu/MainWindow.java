@@ -18,7 +18,7 @@ public class MainWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 201606151555L;
-	private JPanel panel = new StartScreen(); 
+	private JPanel panel;
 	private FieldPanel levelPanel = new FieldPanel(this);
 	private Player active = new Player(null);
 
@@ -26,6 +26,7 @@ public class MainWindow extends JFrame {
 		super("Cerberus");
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		super.setPreferredSize(new Dimension(GameWorld.WORLD_X, GameWorld.WORLD_Y));
+		panel = new StartScreen(this);
 		super.add(panel);
 		super.pack();
 		super.setLocationRelativeTo(null);
@@ -36,12 +37,14 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void startLevel() {
-		addKeyListener(levelPanel.control);
 		levelPanel.setBackground(Color.BLACK);
 		levelPanel.setLevel(new TrainingLevel(levelPanel));
 		levelPanel.setPlayer(active);
+		addKeyListener(levelPanel.control);
 		remove(panel);
 		add(levelPanel);
+		revalidate();
+		repaint();
 		levelPanel.start();
 	}
 }

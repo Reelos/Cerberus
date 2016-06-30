@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import de.reelos.stu.MainWindow;
 import de.reelos.stu.logic.GameWorld;
 
 public class StartScreen extends JPanel {
@@ -18,13 +19,16 @@ public class StartScreen extends JPanel {
 	private JButton levelButton = new JButton("Level Auswahl");
 	private JButton upgradeButton = new JButton("Upgrades");
 	private JButton exitButton = new JButton("Verlassen");
+	private MainWindow parent;
 
-	public StartScreen() {
+	public StartScreen(MainWindow parent) {
+		this.parent = parent;
 		super.setSize(new Dimension(GameWorld.WORLD_X, GameWorld.WORLD_Y));
 		super.setLayout(new BorderLayout(50,50));
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		levelButton.setAlignmentX(CENTER_ALIGNMENT);
+		levelButton.addActionListener(a -> parent.startLevel());
 		upgradeButton.setAlignmentX(CENTER_ALIGNMENT);
 		exitButton.setAlignmentX(CENTER_ALIGNMENT);
 		panel.add(levelButton);

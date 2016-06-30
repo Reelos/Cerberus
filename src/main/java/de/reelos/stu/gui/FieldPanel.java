@@ -20,6 +20,7 @@ public class FieldPanel extends JPanel implements Runnable {
 	class PlayerControl extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent evt) {
+			System.out.println("some key where pressed");
 			if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
 				player.setXMotion(-1);
 			}
@@ -53,6 +54,7 @@ public class FieldPanel extends JPanel implements Runnable {
 			}
 			if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
 				player.setFire(false);
+				System.out.println("FIRE!!!");
 			}
 		}
 	}
@@ -76,7 +78,7 @@ public class FieldPanel extends JPanel implements Runnable {
 		thread = new Thread(this);
 		world = new GameWorld(this);
 		player = new Player(world);
-		world.getObjects().add(player);
+		world.setPlayer(player);
 		delta = 0f;
 		lastLoop = System.currentTimeMillis();
 		adapter = new MouseAdapter() {
@@ -148,8 +150,8 @@ public class FieldPanel extends JPanel implements Runnable {
 	
 	public void setLevel(GameWorld world) {
 		this.world = world;
-		player = new Player(world);
-		world.getObjects().add(player);
+		player.setParent(world);
+		world.setPlayer(player);
 	}
 	
 	public GameWorld getLevel() {
@@ -172,6 +174,6 @@ public class FieldPanel extends JPanel implements Runnable {
 	public void setPlayer(Player player) {
 		this.player = player;
 		player.setParent(world);
-		world.getObjects().add(player);
+		world.setPlayer(player);
 	}
 }
