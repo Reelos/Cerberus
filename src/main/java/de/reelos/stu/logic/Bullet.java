@@ -4,6 +4,7 @@ import java.awt.Color;
 
 public class Bullet extends GameObject {
 
+	public static final float SPEEDBASE = 0.1f;
 	private int power = 0;
 	private GameObject parent;
 
@@ -16,8 +17,11 @@ public class Bullet extends GameObject {
 	}
 
 	public Bullet(GameObject parent, int power, int dirX, int dirY, float ym) {
-		super(parent.getX() + parent.getWidth() + 3, parent.getY() + parent.getHeight() / 2 - 1, 2, 2, 1, dirX, dirY,
-				0.001f, ym);
+		this(parent, power, dirX, dirY, ym, parent.getX() + parent.getWidth() + 3);
+	}
+
+	public Bullet(GameObject parent, int power, int dirX, int dirY, float ym, int xd) {
+		super(xd, parent.getY() + parent.getHeight() / 2 - 1, 2, 2, 1, dirX, dirY, 0.01f, ym);
 		super.speed = 0.01f;
 		this.power = power;
 		this.parent = parent;
@@ -26,10 +30,16 @@ public class Bullet extends GameObject {
 	@Override
 	public void hit(GameObject obj) {
 		if (checkPos(obj) && obj != parent) {
-			if (obj.getType() == GOType.BULLET)
-				if (((Bullet) obj).parent == parent)
+			if (obj.getType() == GOType.BULLET) {
+				if (((Bullet) obj).parent == parent) {
 					return;
-			if(obj.getType() == GOType.BOOST)
+				} else {
+					obj.isRemovable = true;
+					isRemovable = true;
+				}
+
+			}
+			if (obj.getType() == GOType.BOOST)
 				return;
 			obj.change(-power);
 			isRemovable = true;

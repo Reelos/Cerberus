@@ -1,6 +1,8 @@
 package de.reelos.stu.logic;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,19 +10,65 @@ import de.reelos.stu.logic.Boost.BoostType;
 
 public class Player extends GameObject {
 
-	private int firePower = 20;
-	private int shoots = 5;
-	private float shootSpeed = 0.01f;
-	private float shootTimeOut = 0.5f;
+	private class PlayerControl extends KeyAdapter {
+		private Player player;
+
+		public PlayerControl(Player player) {
+			this.player = player;
+		}
+
+		@Override
+		public void keyPressed(KeyEvent evt) {
+			if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+				player.setXMotion(-1);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+				player.setXMotion(1);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_UP) {
+				player.setYMotion(-1);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+				player.setYMotion(1);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+				player.setFire(true);
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent evt) {
+			if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+				player.setXMotion(0);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+				player.setXMotion(0);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_UP) {
+				player.setYMotion(0);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+				player.setYMotion(0);
+			}
+			if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+				player.setFire(false);
+			}
+		}
+	}
+
+	public final KeyAdapter control = new PlayerControl(this);
+	private int firePower = 20, shoots = 5, shield, maxShield;
+	private float shootSpeed = 0.01f, shootTimeOut = 0.5f, lastShoot, lastHit, rechargeDelay = 1f;
 	private boolean fireState = false;
-	private float lastShoot;
 	private GameWorld parent;
 
 	private List<Boost> boostList = new ArrayList<>();
 
-	public Player(GameWorld parent) {
+	public Player(GameWorld parent, int shield) {
 		super(GameWorld.WORLD_X / 5 - 10, GameWorld.WORLD_Y / 2 - 20, 20, 40, 120, 0, 0, 0.01f, 0.01f);
 		this.parent = parent;
+		this.maxShield = shield;
+		this.shield = shield;
 	}
 
 	@Override
@@ -32,9 +80,9 @@ public class Player extends GameObject {
 	public GOType getType() {
 		return GOType.PLAYER;
 	}
-	
+
 	public void setParent(GameWorld world) {
-		
+		this.parent = world;
 	}
 
 	public void fire() {
@@ -130,10 +178,16 @@ public class Player extends GameObject {
 			accY = 0;
 		}
 	}
+	
+	public void recharge(float delta) {
+		if(lastHit >= rechargeDelay) {
+			
+		}
+	}
 
 	@Override
 	public void hit(GameObject obj) {
-
+		lastHit = 0f;
 	}
 
 }

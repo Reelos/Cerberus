@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import de.reelos.stu.gui.FieldPanel;
 import de.reelos.stu.logic.Boost.BoostType;
 import de.reelos.stu.logic.GameObject.GOType;
 
@@ -13,16 +12,11 @@ public class GameWorld {
 	public static final int WORLD_Y = 450;
 
 	protected float spawnTime = 0f, spawnPause = 1.0f;
-	protected FieldPanel parent;
 	private int score = 0, boostChance = 1;
 	private Random posRandom = new Random(), boostRandom = new Random();
 	private List<GameObject> objects = new ArrayList<>();
 	private int oc = 0;
-	
-	
-	public GameWorld(FieldPanel parent) {
-		this.parent = parent;
-	}
+	protected boolean levelClear = false;
 
 	public void update(float delta) {
 		spawnTime += delta;
@@ -70,7 +64,7 @@ public class GameWorld {
 	public List<GameObject> getObjects() {
 		return objects;
 	}
-	
+
 	protected void spawnWave() {
 		GameObject tmp = spawnObject();
 		if (tmp != null && oc < 20) {
@@ -103,7 +97,7 @@ public class GameWorld {
 		}
 		return ret;
 	}
-	
+
 	public void resetTime() {
 		spawnTime = 0f;
 	}
@@ -119,11 +113,15 @@ public class GameWorld {
 		ret = new Boost(x, y, 10, 10, BoostType.values()[posRandom.nextInt(BoostType.values().length)]);
 		return ret;
 	}
-	
+
 	public void setPlayer(Player player) {
-		if(objects.stream().anyMatch(p -> p.getType() == GOType.PLAYER)) {
+		if (objects.stream().anyMatch(p -> p.getType() == GOType.PLAYER)) {
 			objects.remove(objects.stream().filter(p -> p.getType() == GOType.PLAYER).findFirst().orElse(null));
 		}
 		objects.add(player);
+	}
+
+	public boolean isClear() {
+		return levelClear;
 	}
 }

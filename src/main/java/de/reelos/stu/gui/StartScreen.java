@@ -24,7 +24,7 @@ public class StartScreen extends JPanel {
 	public StartScreen(MainWindow parent) {
 		this.parent = parent;
 		super.setSize(new Dimension(GameWorld.WORLD_X, GameWorld.WORLD_Y));
-		super.setLayout(new BorderLayout(50,50));
+		super.setLayout(new BorderLayout(50, 50));
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		levelButton.setAlignmentX(CENTER_ALIGNMENT);

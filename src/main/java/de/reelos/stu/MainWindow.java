@@ -2,6 +2,8 @@ package de.reelos.stu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,8 +21,9 @@ public class MainWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = 201606151555L;
 	private JPanel panel;
-	private FieldPanel levelPanel = new FieldPanel(this);
-	private Player active = new Player(null);
+	private FieldPanel levelPanel;
+	private Player active = new Player(null,30);
+	private GameWorld selectedLevel = new TrainingLevel();
 
 	public MainWindow() {
 		super("Cerberus");
@@ -36,15 +39,23 @@ public class MainWindow extends JFrame {
 		new MainWindow().setVisible(true);
 	}
 	
+	public void backToMenu() {
+		remove(levelPanel);
+		add(panel);
+		revalidate();
+		repaint();
+		panel.requestFocus();
+	}
+
 	public void startLevel() {
+		levelPanel = new FieldPanel(this, selectedLevel, active);
 		levelPanel.setBackground(Color.BLACK);
-		levelPanel.setLevel(new TrainingLevel(levelPanel));
-		levelPanel.setPlayer(active);
-		addKeyListener(levelPanel.control);
 		remove(panel);
 		add(levelPanel);
 		revalidate();
 		repaint();
+		addKeyListener(active.control);
+		levelPanel.addKeyListener(active.control);
 		levelPanel.start();
 	}
 }
