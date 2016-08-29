@@ -9,7 +9,7 @@ public class Boost extends GameObject {
 	private boolean inActive = false;
 
 	public enum BoostType {
-		ACCELARATION(Color.GREEN), FIRERATE(Color.CYAN), SHOOTDAMAGE(Color.RED), SHOOTACCELARATION(Color.ORANGE);
+		ACCELARATION(Color.GREEN), FIRERATE(Color.CYAN), SHOOTDAMAGE(Color.RED), SHOOTACCELARATION(Color.ORANGE), SHIELD(Color.BLUE);
 		
 		private Color color = Color.WHITE;
 		

@@ -91,6 +91,12 @@ public class FieldPanel extends JPanel implements Runnable {
 			g.setColor(Color.BLACK);
 			g.drawString(player.getShootAccBoost() + "", GameWorld.WORLD_X - 250, GameWorld.WORLD_Y - 50);
 		}
+		if (player.getShield() > 0) {
+			g.setColor(BoostType.SHIELD.color());
+			g.fillRect(GameWorld.WORLD_X - 169, GameWorld.WORLD_Y - 74, 102, 10);
+			g.setColor(Color.WHITE);
+			g.drawString(player.getShield() + "", GameWorld.WORLD_X - 122, GameWorld.WORLD_Y - 65);
+		}
 	}
 
 	@Override

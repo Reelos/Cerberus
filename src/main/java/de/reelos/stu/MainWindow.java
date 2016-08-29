@@ -2,17 +2,15 @@ package de.reelos.stu;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import de.reelos.stu.gui.FieldPanel;
 import de.reelos.stu.gui.StartScreen;
+import de.reelos.stu.level.TrainingLevel;
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Player;
-import de.reelos.stu.logic.TrainingLevel;
 
 public class MainWindow extends JFrame {
 

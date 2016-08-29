@@ -57,7 +57,7 @@ public class Player extends GameObject {
 	}
 
 	public final KeyAdapter control = new PlayerControl(this);
-	private int firePower = 20, shoots = 5, shield, maxShield;
+	private int firePower = 20, shoots = 5, shield;
 	private float shootSpeed = 0.01f, shootTimeOut = 0.5f, lastShoot, lastHit, rechargeDelay = 1f;
 	private boolean fireState = false;
 	private GameWorld parent;
@@ -67,7 +67,6 @@ public class Player extends GameObject {
 	public Player(GameWorld parent, int shield) {
 		super(GameWorld.WORLD_X / 5 - 10, GameWorld.WORLD_Y / 2 - 20, 20, 40, 120, 0, 0, 0.01f, 0.01f);
 		this.parent = parent;
-		this.maxShield = shield;
 		this.shield = shield;
 	}
 
@@ -163,6 +162,10 @@ public class Player extends GameObject {
 
 	public long getShootAccBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTACCELARATION).count();
+	}
+	
+	public long getShield() {
+		return shield;
 	}
 
 	@Override
