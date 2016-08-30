@@ -25,7 +25,7 @@ public class Boost extends GameObject {
 	private BoostType type = null;
 
 	public Boost(int x, int y, int height, int width, BoostType type) {
-		super(x, y, height, width, 1, 0, 0, 0, 0);
+		super(x, y, height, width, 1, new Vector2D(0,0,0));
 		this.type = type;
 	}
 

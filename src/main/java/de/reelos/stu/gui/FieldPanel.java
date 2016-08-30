@@ -2,10 +2,6 @@ package de.reelos.stu.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
@@ -27,7 +23,6 @@ public class FieldPanel extends JPanel implements Runnable {
 	private GameWorld world;
 	private boolean running;
 	private Player player;
-	private MouseAdapter adapter;
 	private MainWindow parent;
 
 	public FieldPanel(MainWindow parent, GameWorld world, Player player) {
@@ -39,13 +34,6 @@ public class FieldPanel extends JPanel implements Runnable {
 		this.player.setParent(this.world);
 		this.delta = 0f;
 		this.lastLoop = System.currentTimeMillis();
-		this.adapter = new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent evt) {
-				world.getObjects().add(world.boost());
-			}
-		};
 	}
 
 	@Override

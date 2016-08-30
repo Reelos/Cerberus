@@ -9,20 +9,23 @@ public class Bullet extends GameObject {
 	private GameObject parent;
 
 	public Bullet(GameObject parent, int power) {
-		this(parent, power, 1, 0);
+		this(parent, power, 0.1f);
 	}
 
-	public Bullet(GameObject parent, int power, int dirX, int dirY) {
-		this(parent, power, dirX, dirY, 0.1f);
+	public Bullet(GameObject parent, int power, float xm) {
+		this(parent, power, xm, 0.1f);
 	}
 
-	public Bullet(GameObject parent, int power, int dirX, int dirY, float ym) {
-		this(parent, power, dirX, dirY, ym, parent.getX() + parent.getWidth() + 3);
+	public Bullet(GameObject parent, int power, float xm, float ym) {
+		this(parent, power, 1f, xm, ym);
 	}
 
-	public Bullet(GameObject parent, int power, int dirX, int dirY, float ym, int xd) {
-		super(xd, parent.getY() + parent.getHeight() / 2 - 1, 2, 2, 1, dirX, dirY, 0.01f, ym);
-		super.speed = 0.01f;
+	public Bullet(GameObject parent, int power, float force, float xm, float ym) {
+		this(parent, power, force, xm, ym, parent.getX() + parent.getWidth() + 3);
+	}
+
+	public Bullet(GameObject parent, int power, float speed, float xm, float ym, int xd) {
+		super(xd, parent.getY() + parent.getHeight() / 2 - 1, 2, 2, 1, new Vector2D(xm, ym, speed));
 		this.power = power;
 		this.parent = parent;
 	}
@@ -44,14 +47,6 @@ public class Bullet extends GameObject {
 			obj.change(-power);
 			isRemovable = true;
 		}
-	}
-
-	public void setSpeed(float speed) {
-		super.xm = speed;
-	}
-
-	public float getSpeed() {
-		return super.speed;
 	}
 
 	@Override

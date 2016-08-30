@@ -31,9 +31,14 @@ public class StartScreen extends JPanel {
 		levelButton.addActionListener(a -> parent.startLevel());
 		upgradeButton.setAlignmentX(CENTER_ALIGNMENT);
 		exitButton.setAlignmentX(CENTER_ALIGNMENT);
+		exitButton.addActionListener(a -> parent.dispose());
 		panel.add(levelButton);
 		panel.add(upgradeButton);
 		panel.add(exitButton);
 		super.add(panel, BorderLayout.SOUTH);
+	}
+
+	public MainWindow getParent() {
+		return parent;
 	}
 }

@@ -7,23 +7,25 @@ public class GameObject {
 		METROID, BULLET, PLAYER, BOOST, ENEMY;
 	}
 
-	protected float speed = 0.1f, xm = 0.1f, ym = 0.1f, accX = 0f, accY = 0f;
-	protected int height, width, x, y, life, maxlife, dirX, dirY;
+	protected float accX = 0f, accY = 0f, ttm = 1f, objTick = 1f;
+	protected Vector2D velocity = new Vector2D(0,0,0);
+	protected int height, width, x, y, life, maxlife;
 	protected boolean isRemovable = false;
 	private float tick = 0f;
 	private GameObject lastHitted = null;
 
-	public GameObject(int x, int y, int height, int width, int life, int dirX, int dirY, float xm, float ym) {
+	public GameObject(int x, int y, int height, int width, int life, Vector2D velocity) {
 		this.height = height;
 		this.width = width;
 		this.x = x;
 		this.y = y;
 		this.life = life;
 		this.maxlife = life;
-		this.dirX = dirX;
-		this.dirY = dirY;
-		this.xm = xm;
-		this.ym = ym;
+		this.velocity = velocity;
+	}
+	
+	public void initVelocity(float x, float y, float depletion, float limit) {
+		velocity.initVelocity(x, y, depletion,limit);
 	}
 
 	public void hit(GameObject obj) {
@@ -44,14 +46,6 @@ public class GameObject {
 
 	public int getMaxLife() {
 		return maxlife;
-	}
-
-	public void setXMotion(int x) {
-		dirX = x;
-	}
-
-	public void setYMotion(int y) {
-		dirY = y;
 	}
 
 	public GameObject lastHit() {
@@ -106,6 +100,10 @@ public class GameObject {
 	public int getHeight() {
 		return height;
 	}
+	
+	public float getObjectTick() {
+		return objTick;
+	}
 
 	public void bounds() {
 		if (x > GameWorld.WORLD_X || x + width < 0 || y > GameWorld.WORLD_Y || y + height < 0 || life <= 0) {
@@ -125,12 +123,12 @@ public class GameObject {
 	public void move(float delta) {
 		accX += delta;
 		accY += delta;
-		if (accX >= xm) {
-			x += dirX;
+		if (accX >= objTick - Math.abs(velocity.getXVelocity())) {
+			x += (velocity.getXVelocity()>0?1:(velocity.getXVelocity()<0?-1:0));
 			accX = 0;
 		}
-		if (accY >= ym) {
-			y += dirY;
+		if (accY >= objTick - Math.abs(velocity.getYVelocity())) {
+			y += (velocity.getYVelocity()>0?1:(velocity.getYVelocity()<0?-1:0));
 			accY = 0;
 		}
 	}
@@ -138,7 +136,8 @@ public class GameObject {
 	public void update(float delta) {
 		tick += delta;
 		move(delta);
-		if (tick >= speed) {
+		if (tick >= ttm) {
+			velocity.update(delta);
 			bounds();
 			tick = 0f;
 		}
@@ -157,5 +156,9 @@ public class GameObject {
 
 	public GOType getType() {
 		return GOType.METROID;
+	}
+	
+	public Vector2D getVelocity() {
+		return velocity;
 	}
 }

@@ -46,12 +46,14 @@ public class MainWindow extends JFrame {
 	}
 
 	public void startLevel() {
+		selectedLevel = new TrainingLevel();
 		levelPanel = new FieldPanel(this, selectedLevel, active);
 		levelPanel.setBackground(Color.BLACK);
 		remove(panel);
 		add(levelPanel);
 		revalidate();
 		repaint();
+		levelPanel.requestFocus();
 		addKeyListener(active.control);
 		levelPanel.addKeyListener(active.control);
 		levelPanel.start();

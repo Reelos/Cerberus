@@ -3,7 +3,6 @@ package de.reelos.stu.level;
 import java.util.Arrays;
 import java.util.List;
 
-import de.reelos.stu.gui.FieldPanel;
 import de.reelos.stu.logic.Enemy;
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Wave;
