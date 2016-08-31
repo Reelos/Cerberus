@@ -2,6 +2,8 @@ package de.reelos.stu.logic;
 
 import java.awt.Color;
 
+import de.reelos.stu.logic.objects.GameObject;
+
 public class Bullet extends GameObject {
 
 	public static final float SPEEDBASE = 0.1f;
@@ -37,7 +39,7 @@ public class Bullet extends GameObject {
 				if (((Bullet) obj).parent == parent) {
 					return;
 				} else {
-					obj.isRemovable = true;
+					obj.isRemovable(true);
 					isRemovable = true;
 				}
 

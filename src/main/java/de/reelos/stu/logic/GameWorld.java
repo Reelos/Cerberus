@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import de.reelos.stu.logic.Boost.BoostType;
-import de.reelos.stu.logic.GameObject.GOType;
+import de.reelos.stu.logic.objects.GameObject;
+import de.reelos.stu.logic.objects.GameObject.GOType;
+import de.reelos.stu.logic.objects.enemies.UFO;
+import de.reelos.stu.logic.objects.player.Player;
+
 
 public class GameWorld {
 	public static final int WORLD_X = 600;
@@ -43,6 +47,9 @@ public class GameWorld {
 				}
 			}
 			if (go.isRemovable()) {
+				if(go.getType() == GOType.PLAYER) {
+					levelClear = true;
+				}
 				objects.remove(go);
 				if (go.lastHit() != null)
 					if (go.getType() == GOType.METROID
@@ -77,14 +84,9 @@ public class GameWorld {
 	private GameObject spawnObject() {
 		GameObject ret = null;
 		if (objects.size() < 20) {
-			int width = 20;
-			int height = 20;
 			int x = posRandom.nextInt(WORLD_X);
 			int y = posRandom.nextInt(WORLD_Y);
-			int life = posRandom.nextInt(height + width) + 1;
-			float xm = posRandom.nextFloat() - 0.8f;
-			float ym = posRandom.nextFloat() - 0.8f;
-			GameObject temp = new GameObject(x, y, height, width, life, new Vector2D(xm,ym,1));
+			GameObject temp = new UFO(this, x, y);
 			for (GameObject go : objects) {
 				if (temp.checkPos(go)) {
 					ret = spawnObject();

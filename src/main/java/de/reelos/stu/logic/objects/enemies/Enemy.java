@@ -1,8 +1,14 @@
-package de.reelos.stu.logic;
+package de.reelos.stu.logic.objects.enemies;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
-public class Enemy extends GameObject {
+import de.reelos.stu.logic.Bullet;
+import de.reelos.stu.logic.GameWorld;
+import de.reelos.stu.logic.Vector2D;
+import de.reelos.stu.logic.objects.GameObject;
+
+public abstract class Enemy extends GameObject {
 
 	private float fireDelay = 3f;
 	private float fireTimer = 0f;
@@ -17,6 +23,14 @@ public class Enemy extends GameObject {
 		super.initVelocity(xm, ym, 0.01f, 20);
 		this.parent = parent;
 	}
+	
+	public void drawHealth(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(x, y + height + 5, width, 5);
+		g.setColor(Color.GREEN);
+		g.fillRect(x, y + height + 5, (int)(width * ((life * 1.0d) / maxlife)), 5);
+		g.drawRect(x, y + height + 5, width, 5);
+	}
 
 	@Override
 	public Color getColor() {
@@ -27,14 +41,18 @@ public class Enemy extends GameObject {
 	public GOType getType() {
 		return GOType.ENEMY;
 	}
-
-	public void update(float delta) {
-		super.update(delta);
+	
+	public void strategie(float delta) {
 		fireTimer += delta;
 		if (fireTimer >= fireDelay) {
 			parent.getObjects().add(new Bullet(this, 5, 1, -0.99f, 0, x - 5));
 			fireTimer = 0;
 		}
+	}
+
+	public void update(float delta) {
+		super.update(delta);
+		strategie(delta);
 	}
 	
 	public void hit(GameObject obj) {

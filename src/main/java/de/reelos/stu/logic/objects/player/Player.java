@@ -1,12 +1,21 @@
-package de.reelos.stu.logic;
+package de.reelos.stu.logic.objects.player;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import de.reelos.stu.logic.Boost;
 import de.reelos.stu.logic.Boost.BoostType;
+import de.reelos.stu.logic.Bullet;
+import de.reelos.stu.logic.GameWorld;
+import de.reelos.stu.logic.Vector2D;
+import de.reelos.stu.logic.objects.GameObject;
 
 public class Player extends GameObject {
 
@@ -57,7 +66,7 @@ public class Player extends GameObject {
 	}
 
 	public final KeyAdapter control = new PlayerControl(this);
-	private int firePower = 20, shoots = 5, shield;
+	private int firePower = 20, shield = 0, shieldMax = 0;
 	private float shootSpeed = 0.99f, shootTimeOut = 0.5f, lastShoot, lastHit, rechargeDelay = 1f;
 	private boolean fireState = false, up = false, down = false, left = false, right = false;
 	private GameWorld parent;
@@ -71,6 +80,16 @@ public class Player extends GameObject {
 		initVelocity(0.9f, 0f, 0.001f, objTick - objTick / 1000);
 		this.parent = parent;
 		this.shield = shield;
+		this.shieldMax = shield;
+	}
+	
+	@Override
+	public void drawMe(Graphics g) {
+		try {
+			g.drawImage(ImageIO.read(Player.class.getClassLoader().getResourceAsStream("./player0.png")), x, y, width, height, null);
+		} catch (IOException e) {
+			super.drawMe(g);
+		}
 	}
 
 	@Override
@@ -87,6 +106,7 @@ public class Player extends GameObject {
 		x = -25;
 		y = GameWorld.WORLD_Y / 2 - 10;
 		initVelocity(0.999f, 0f, 0.001f, objTick - objTick / 1000);
+		shield = shieldMax;
 	}
 
 	public void setParent(GameWorld world) {
@@ -95,7 +115,7 @@ public class Player extends GameObject {
 
 	public void fire() {
 		Bullet ret = null;
-		switch (shoots) {
+		switch ((int)getShoots()) {
 		case 5:
 			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())), shootSpeed, -0.9f);
 			parent.getObjects().add(ret);
@@ -160,9 +180,30 @@ public class Player extends GameObject {
 		}
 	}
 
+	@Override
+	public void bounds() {
+		if (x > GameWorld.WORLD_X - width) {
+			x = GameWorld.WORLD_X - width;
+		}
+		if (x < 0) {
+			x = 0;
+		}
+		if (y > GameWorld.WORLD_Y - height - 45) {
+			y = GameWorld.WORLD_Y - height - 45;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		if (life <= 0) {
+			isRemovable = true;
+		}
+	}
+
+	@Override
 	public void update(float delta) {
 		super.update(delta);
 		lastShoot += delta;
+		recharge(delta);
 		for (int i = 0; i < boostList.size(); i++) {
 			Boost boost = boostList.get(i);
 			if (boost.inActive()) {
@@ -193,19 +234,43 @@ public class Player extends GameObject {
 	public long getShootAccBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTACCELARATION).count();
 	}
+	
+	public long getShoots() {
+		return 1 + boostList.stream().filter(b -> b.getBoostType() == BoostType.EXTRASHOOT).count();
+	}
 
 	public long getShield() {
 		return shield;
 	}
-
-	public void recharge(float delta) {
-		if (lastHit >= rechargeDelay) {
-
-		}
+	
+	public long getMaxShield() {
+		return shieldMax;
 	}
 
+	public void recharge(float delta) {
+		lastHit += delta;
+		if (lastHit >= rechargeDelay) {
+			if(shield < shieldMax) {
+				shield++;
+				lastHit /=1.5f;
+			}
+		}
+	}
 	@Override
 	public void hit(GameObject obj) {
+		
+	}
+	
+	@Override
+	public void change(int dmg) {
+		int swap = dmg;
+		if(shield > 0) {
+			swap += shield;
+			shield = swap < 0 ? 0 : shield + dmg;
+		}
+		if(swap < 0) {
+			life += swap;
+		}
 		lastHit = 0f;
 	}
 

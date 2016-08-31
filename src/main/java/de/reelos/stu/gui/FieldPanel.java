@@ -2,14 +2,18 @@ package de.reelos.stu.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
 import de.reelos.stu.MainWindow;
 import de.reelos.stu.logic.Boost.BoostType;
-import de.reelos.stu.logic.GameObject;
+import de.reelos.stu.logic.Bullet;
 import de.reelos.stu.logic.GameWorld;
-import de.reelos.stu.logic.Player;
+import de.reelos.stu.logic.objects.enemies.UFO;
+import de.reelos.stu.logic.objects.player.Player;
+
 
 public class FieldPanel extends JPanel implements Runnable {
 
@@ -34,6 +38,14 @@ public class FieldPanel extends JPanel implements Runnable {
 		this.player.setParent(this.world);
 		this.delta = 0f;
 		this.lastLoop = System.currentTimeMillis();
+		addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent evt) {
+				if(evt.getButton() == MouseEvent.BUTTON1) {
+					world.getObjects().add(new Bullet(new UFO(world, evt.getPoint().x, evt.getPoint().y), 100, -0.99f));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -42,9 +54,7 @@ public class FieldPanel extends JPanel implements Runnable {
 		g.fillRect(0, 0, GameWorld.WORLD_X, GameWorld.WORLD_Y);
 
 		for (int i = 0; i < world.getObjects().size(); i++) {
-			GameObject go = world.getObjects().get(i);
-			g.setColor(go.getColor());
-			g.fillRect(go.getX(), go.getY(), go.getWidth(), go.getHeight());
+			world.getObjects().get(i).drawMe(g);
 		}
 		g.setColor(Color.WHITE);
 		g.drawString("Score: " + world.getScore(), 20, GameWorld.WORLD_Y - 40);
@@ -55,6 +65,13 @@ public class FieldPanel extends JPanel implements Runnable {
 		g.setColor(Color.WHITE);
 		g.drawString("( " + player.getLife() + " | " + player.getMaxLife() + " )", GameWorld.WORLD_X - 150,
 				GameWorld.WORLD_Y - 50);
+		g.setColor(Color.CYAN);
+		g.drawRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 74, 100, 10);
+		g.fillRect(GameWorld.WORLD_X - 168, GameWorld.WORLD_Y - 74,
+				(int) (100d * player.getShield() / player.getMaxShield()), 10);
+		g.setColor(Color.BLACK);
+		g.drawString("( " + player.getShield() + " | " + player.getMaxShield() + " )", GameWorld.WORLD_X - 143,
+				GameWorld.WORLD_Y - 65);
 		if (player.getAccBoost() > 0) {
 			g.setColor(BoostType.ACCELARATION.color());
 			g.fillRect(GameWorld.WORLD_X - 200, GameWorld.WORLD_Y - 64, 20, 20);
@@ -79,6 +96,11 @@ public class FieldPanel extends JPanel implements Runnable {
 			g.setColor(Color.BLACK);
 			g.drawString(player.getShootAccBoost() + "", GameWorld.WORLD_X - 250, GameWorld.WORLD_Y - 50);
 		}
+		
+		g.setColor(BoostType.EXTRASHOOT.color());
+		g.fillRect(GameWorld.WORLD_X - 280, GameWorld.WORLD_Y - 64, 20, 20);
+		g.setColor(Color.BLACK);
+		g.drawString(player.getShoots() + "", GameWorld.WORLD_X - 270, GameWorld.WORLD_Y - 50);
 	}
 
 	@Override

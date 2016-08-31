@@ -1,8 +1,12 @@
-package de.reelos.stu.logic;
+package de.reelos.stu.logic.objects;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
-public class GameObject {
+import de.reelos.stu.logic.GameWorld;
+import de.reelos.stu.logic.Vector2D;
+
+public abstract class GameObject {
 	public enum GOType {
 		METROID, BULLET, PLAYER, BOOST, ENEMY;
 	}
@@ -22,6 +26,11 @@ public class GameObject {
 		this.life = life;
 		this.maxlife = life;
 		this.velocity = velocity;
+	}
+	
+	public void drawMe(Graphics g) {
+		g.setColor(getColor());
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 	
 	public void initVelocity(float x, float y, float depletion, float limit) {
@@ -145,6 +154,10 @@ public class GameObject {
 
 	public boolean isRemovable() {
 		return isRemovable;
+	}
+	
+	public void isRemovable(boolean state) {
+		isRemovable = state;
 	}
 
 	public void change(int val) {

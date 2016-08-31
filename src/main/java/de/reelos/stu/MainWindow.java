@@ -10,7 +10,8 @@ import de.reelos.stu.gui.FieldPanel;
 import de.reelos.stu.gui.StartScreen;
 import de.reelos.stu.level.TrainingLevel;
 import de.reelos.stu.logic.GameWorld;
-import de.reelos.stu.logic.Player;
+import de.reelos.stu.logic.objects.player.Player;
+
 
 public class MainWindow extends JFrame {
 

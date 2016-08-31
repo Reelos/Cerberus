@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.reelos.stu.logic.GameObject.GOType;
+import de.reelos.stu.logic.objects.GameObject;
+import de.reelos.stu.logic.objects.GameObject.GOType;
 
 public class Wave {
 
