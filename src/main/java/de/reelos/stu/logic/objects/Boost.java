@@ -1,8 +1,8 @@
-package de.reelos.stu.logic;
+package de.reelos.stu.logic.objects;
 
 import java.awt.Color;
 
-import de.reelos.stu.logic.objects.GameObject;
+import de.reelos.stu.logic.Vector2D;
 import de.reelos.stu.logic.objects.player.Player;
 
 

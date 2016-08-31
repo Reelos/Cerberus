@@ -1,23 +1,19 @@
 package de.reelos.stu.logic.objects.player;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import de.reelos.stu.logic.Boost;
-import de.reelos.stu.logic.Boost.BoostType;
-import de.reelos.stu.logic.Bullet;
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Vector2D;
+import de.reelos.stu.logic.objects.Boost;
+import de.reelos.stu.logic.objects.Bullet;
 import de.reelos.stu.logic.objects.GameObject;
+import de.reelos.stu.logic.objects.Boost.BoostType;
 
-public class Player extends GameObject {
+public abstract class Player extends GameObject {
 
 	private class PlayerControl extends KeyAdapter {
 		private Player player;
@@ -73,23 +69,15 @@ public class Player extends GameObject {
 
 	private List<Boost> boostList = new ArrayList<>();
 
-	public Player(GameWorld parent, int shield) {
-		super(-25, GameWorld.WORLD_Y / 2 - 10, 20, 50, 120, new Vector2D(0l, 0l, 1l));
-		super.objTick = 1f;
+	public Player(GameWorld parent, int width, int height, int life, int shield, float force, int firepower) {
+		super(-25, GameWorld.WORLD_Y / 2 - height / 2, height, width, life, new Vector2D(0l, 0l, force));
+		super.objTick = force;
 		super.ttm = 0.01f;
-		initVelocity(0.9f, 0f, 0.001f, objTick - objTick / 1000);
+		initVelocity(0.9f, 0f, force / 1000, objTick - objTick / 1000);
 		this.parent = parent;
 		this.shield = shield;
 		this.shieldMax = shield;
-	}
-	
-	@Override
-	public void drawMe(Graphics g) {
-		try {
-			g.drawImage(ImageIO.read(Player.class.getClassLoader().getResourceAsStream("./player0.png")), x, y, width, height, null);
-		} catch (IOException e) {
-			super.drawMe(g);
-		}
+		this.firePower = firepower;
 	}
 
 	@Override
@@ -105,8 +93,9 @@ public class Player extends GameObject {
 	public void reset() {
 		x = -25;
 		y = GameWorld.WORLD_Y / 2 - 10;
-		initVelocity(0.999f, 0f, 0.001f, objTick - objTick / 1000);
+		getVelocity().reinitVelocity();
 		shield = shieldMax;
+		life = maxlife;
 	}
 
 	public void setParent(GameWorld world) {
@@ -115,7 +104,7 @@ public class Player extends GameObject {
 
 	public void fire() {
 		Bullet ret = null;
-		switch ((int)getShoots()) {
+		switch ((int) getShoots()) {
 		case 5:
 			ret = new Bullet(this, (int) (firePower * (1 + getDmgBoost())), shootSpeed, -0.9f);
 			parent.getObjects().add(ret);
@@ -136,12 +125,12 @@ public class Player extends GameObject {
 
 	public float getXSpeed() {
 		float ret = (velocity.getXVelocity() * (1 + getAccBoost()));
-		return ret >= objTick ? objTick - objTick / 10000 : ret;
+		return ret >= objTick ? objTick - objTick / 1000 : ret;
 	}
 
 	public float getYSpeed() {
 		float ret = (velocity.getYVelocity() * (1 + getAccBoost()));
-		return ret >= objTick ? objTick - objTick / 10000 : ret;
+		return ret >= objTick ? objTick - objTick / 1000 : ret;
 	}
 
 	public float getShootTimeOut() {
@@ -234,7 +223,7 @@ public class Player extends GameObject {
 	public long getShootAccBoost() {
 		return boostList.stream().filter(b -> b.getBoostType() == BoostType.SHOOTACCELARATION).count();
 	}
-	
+
 	public long getShoots() {
 		return 1 + boostList.stream().filter(b -> b.getBoostType() == BoostType.EXTRASHOOT).count();
 	}
@@ -242,7 +231,7 @@ public class Player extends GameObject {
 	public long getShield() {
 		return shield;
 	}
-	
+
 	public long getMaxShield() {
 		return shieldMax;
 	}
@@ -250,25 +239,26 @@ public class Player extends GameObject {
 	public void recharge(float delta) {
 		lastHit += delta;
 		if (lastHit >= rechargeDelay) {
-			if(shield < shieldMax) {
+			if (shield < shieldMax) {
 				shield++;
-				lastHit /=1.5f;
+				lastHit /= 1.5f;
 			}
 		}
 	}
+
 	@Override
 	public void hit(GameObject obj) {
-		
+
 	}
-	
+
 	@Override
 	public void change(int dmg) {
 		int swap = dmg;
-		if(shield > 0) {
+		if (shield > 0) {
 			swap += shield;
 			shield = swap < 0 ? 0 : shield + dmg;
 		}
-		if(swap < 0) {
+		if (swap < 0) {
 			life += swap;
 		}
 		lastHit = 0f;

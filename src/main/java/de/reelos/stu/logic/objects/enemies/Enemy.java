@@ -3,9 +3,9 @@ package de.reelos.stu.logic.objects.enemies;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import de.reelos.stu.logic.Bullet;
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Vector2D;
+import de.reelos.stu.logic.objects.Bullet;
 import de.reelos.stu.logic.objects.GameObject;
 
 public abstract class Enemy extends GameObject {
@@ -25,11 +25,12 @@ public abstract class Enemy extends GameObject {
 	}
 	
 	public void drawHealth(Graphics g) {
-		g.setColor(Color.RED);
-		g.fillRect(x, y + height + 5, width, 5);
-		g.setColor(Color.GREEN);
-		g.fillRect(x, y + height + 5, (int)(width * ((life * 1.0d) / maxlife)), 5);
-		g.drawRect(x, y + height + 5, width, 5);
+		if(life != maxlife) {
+			g.setColor(Color.RED);
+			g.fillRect(x, y + height + 5, width, 5);
+			g.setColor(Color.GREEN);
+			g.fillRect(x, y + height + 5, (int)(width * ((life * 1.0d) / maxlife)), 5);
+		}
 	}
 
 	@Override

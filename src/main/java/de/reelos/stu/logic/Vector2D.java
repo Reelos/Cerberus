@@ -1,7 +1,7 @@
 package de.reelos.stu.logic;
 
 public class Vector2D {
-	private float baseX, baseY, force, modX, modY, depletion, limit, xChange, yChange;
+	private float baseX, baseY, force, modX, modY, depletion, limit, xChange, yChange,startX,startY;
 
 	public Vector2D(float baseX, float baseY, float force) {
 		this.baseX = baseX;
@@ -12,8 +12,14 @@ public class Vector2D {
 	public void initVelocity(float modX, float modY, float depletion, float limit) {
 		this.modX = modX;
 		this.modY = modY;
+		this.startX = modX;
+		this.startY = modY;
 		this.depletion = depletion;
 		this.limit = limit;
+	}
+	
+	public void reinitVelocity() {
+		initVelocity(startX,startY,depletion,limit);
 	}
 
 	public float getXVelocity() {

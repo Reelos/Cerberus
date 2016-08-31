@@ -1,6 +1,7 @@
 package de.reelos.stu.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,9 +9,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import de.reelos.stu.MainWindow;
-import de.reelos.stu.logic.Boost.BoostType;
-import de.reelos.stu.logic.Bullet;
 import de.reelos.stu.logic.GameWorld;
+import de.reelos.stu.logic.objects.Bullet;
+import de.reelos.stu.logic.objects.Boost.BoostType;
 import de.reelos.stu.logic.objects.enemies.UFO;
 import de.reelos.stu.logic.objects.player.Player;
 
@@ -50,6 +51,7 @@ public class FieldPanel extends JPanel implements Runnable {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		g.setFont(new Font("Terminal", 0, 8));
 		g.setColor(this.getBackground());
 		g.fillRect(0, 0, GameWorld.WORLD_X, GameWorld.WORLD_Y);
 
