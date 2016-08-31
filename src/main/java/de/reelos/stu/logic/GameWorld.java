@@ -117,6 +117,7 @@ public class GameWorld {
 			objects.remove(objects.stream().filter(p -> p.getType() == GOType.PLAYER).findFirst().orElse(null));
 		}
 		objects.add(player);
+		player.reset();
 	}
 
 	public boolean isClear() {

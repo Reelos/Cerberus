@@ -36,4 +36,10 @@ public class Enemy extends GameObject {
 			fireTimer = 0;
 		}
 	}
+	
+	public void hit(GameObject obj) {
+		if(obj.getType() != GOType.BOOST) {
+			super.hit(obj);
+		}
+	}
 }

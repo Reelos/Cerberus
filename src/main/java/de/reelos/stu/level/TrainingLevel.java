@@ -8,10 +8,18 @@ import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Wave;
 
 public class TrainingLevel extends GameWorld {
-	private List<Wave> waves = Arrays.asList(new Wave(new Enemy(this, GameWorld.WORLD_X - 40, 20, 20, 20),
-			new Enemy(this, GameWorld.WORLD_X - 40, 60, 20, 20), new Enemy(this, GameWorld.WORLD_X - 40, 100, 20, 20),
-			new Enemy(this, GameWorld.WORLD_X - 40, 140, 20, 20),
-			new Enemy(this, GameWorld.WORLD_X - 40, 180, 20, 20)));
+	private List<Wave> waves = Arrays.asList(
+			new Wave(new Enemy(this, GameWorld.WORLD_X - 1, GameWorld.WORLD_Y / 2 - 10, 20, 50)),
+			new Wave(new Enemy(this, GameWorld.WORLD_X - 1, 20, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 60, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 100, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 140, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 180, 20, 20)),
+			new Wave(new Enemy(this, GameWorld.WORLD_X - 1, 220, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 260, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 300, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 340, 20, 20),
+					new Enemy(this, GameWorld.WORLD_X - 1, 380, 20, 20)));
 
 	@Override
 	public void spawnWave() {

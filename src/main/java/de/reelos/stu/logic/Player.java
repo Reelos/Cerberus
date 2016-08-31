@@ -65,10 +65,10 @@ public class Player extends GameObject {
 	private List<Boost> boostList = new ArrayList<>();
 
 	public Player(GameWorld parent, int shield) {
-		super(GameWorld.WORLD_X / 5 - 10, GameWorld.WORLD_Y / 2 - 20, 20, 40, 120, new Vector2D(0l, 0l, 1l));
+		super(-25, GameWorld.WORLD_Y / 2 - 10, 20, 50, 120, new Vector2D(0l, 0l, 1l));
 		super.objTick = 1f;
 		super.ttm = 0.01f;
-		initVelocity(0.9f, 0f, 0.001f, objTick-objTick/1000);
+		initVelocity(0.9f, 0f, 0.001f, objTick - objTick / 1000);
 		this.parent = parent;
 		this.shield = shield;
 	}
@@ -81,6 +81,12 @@ public class Player extends GameObject {
 	@Override
 	public GOType getType() {
 		return GOType.PLAYER;
+	}
+
+	public void reset() {
+		x = -25;
+		y = GameWorld.WORLD_Y / 2 - 10;
+		initVelocity(0.999f, 0f, 0.001f, objTick - objTick / 1000);
 	}
 
 	public void setParent(GameWorld world) {
@@ -109,11 +115,13 @@ public class Player extends GameObject {
 	}
 
 	public float getXSpeed() {
-		return 100 / (velocity.getXVelocity() * (1 + getAccBoost()));
+		float ret = (velocity.getXVelocity() * (1 + getAccBoost()));
+		return ret >= objTick ? objTick - objTick / 10000 : ret;
 	}
 
 	public float getYSpeed() {
-		return 100 / (velocity.getYVelocity() * (1 + getAccBoost()));
+		float ret = (velocity.getYVelocity() * (1 + getAccBoost()));
+		return ret >= objTick ? objTick - objTick / 10000 : ret;
 	}
 
 	public float getShootTimeOut() {
@@ -127,14 +135,14 @@ public class Player extends GameObject {
 	public void addBoost(Boost boost) {
 		boostList.add(boost);
 	}
-	
+
 	@Override
 	public void move(float delta) {
 		accX += delta;
 		accY += delta;
 		if (left) {
 			getVelocity().addToX(-0.03f);
-		}else if (right) {
+		} else if (right) {
 			getVelocity().addToX(0.03f);
 		}
 		if (up) {
@@ -142,12 +150,12 @@ public class Player extends GameObject {
 		} else if (down) {
 			getVelocity().addToY(0.03f);
 		}
-		if (accX >= objTick - Math.abs(velocity.getXVelocity())) {
-			x += (velocity.getXVelocity()>0?1:(velocity.getXVelocity()<0?-1:0));
+		if (accX >= objTick - Math.abs(getXSpeed())) {
+			x += (velocity.getXVelocity() > 0 ? 1 : (velocity.getXVelocity() < 0 ? -1 : 0));
 			accX = 0;
 		}
-		if (accY >= objTick - Math.abs(velocity.getYVelocity())) { 
-			y += (velocity.getYVelocity()>0?1:(velocity.getYVelocity()<0?-1:0));
+		if (accY >= objTick - Math.abs(getYSpeed())) {
+			y += (velocity.getYVelocity() > 0 ? 1 : (velocity.getYVelocity() < 0 ? -1 : 0));
 			accY = 0;
 		}
 	}

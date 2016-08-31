@@ -37,8 +37,8 @@ public class StartScreen extends JPanel {
 		panel.add(exitButton);
 		super.add(panel, BorderLayout.SOUTH);
 	}
-
-	public MainWindow getParent() {
+	
+	public MainWindow getMainWindow() {
 		return parent;
 	}
 }
