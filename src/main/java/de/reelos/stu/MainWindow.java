@@ -10,8 +10,8 @@ import de.reelos.stu.gui.FieldPanel;
 import de.reelos.stu.gui.StartScreen;
 import de.reelos.stu.level.TrainingLevel;
 import de.reelos.stu.logic.GameWorld;
-import de.reelos.stu.logic.objects.player.Carrier;
 import de.reelos.stu.logic.objects.player.Player;
+import de.reelos.stu.logic.objects.player.Raider;
 
 
 public class MainWindow extends JFrame {
@@ -22,7 +22,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 201606151555L;
 	private JPanel panel;
 	private FieldPanel levelPanel;
-	private Player active = new Carrier(null);
+	private Player active = new Raider(null);
 	private GameWorld selectedLevel = new TrainingLevel();
 
 	public MainWindow() {

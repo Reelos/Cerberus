@@ -2,6 +2,7 @@ package de.reelos.stu.logic;
 
 public class Vector2D {
 	private float baseX, baseY, force, modX, modY, depletion, limit, xChange, yChange,startX,startY;
+	private float limitation = 0.0001f;
 
 	public Vector2D(float baseX, float baseY, float force) {
 		this.baseX = baseX;
@@ -54,20 +55,24 @@ public class Vector2D {
 	}
 
 	public void addToX(float toX) {
-		if (Math.abs(toX + modX) < limit) {
-			modX += toX;
-		} else {
-			modX = toX > 0 ? limit : limit * -1;
+		if(xChange >= limitation) {
+			if (Math.abs(toX + modX) < limit) {
+				modX += modX * toX > 0 ? modX  * toX : 0.025f;
+			} else {
+				modX = toX > 0 ? limit : limit * -1;
+			}
+			xChange = 0;
 		}
-		xChange = 0;
 	}
 
 	public void addToY(float toY) {
-		if (Math.abs(toY + modY) < limit) {
-			modY += toY;
-		} else {
-			modY = toY > 0 ? limit : limit * -1;
+		if(yChange >= limitation) {
+			if (Math.abs(toY + modY) < limit) {
+				modY += modY * toY > 0? modY * toY : 0.025f;
+			} else {
+				modY = toY > 0 ? limit : limit * -1;
+			}
+			yChange = 0;
 		}
-		yChange = 0;
 	}
 }
