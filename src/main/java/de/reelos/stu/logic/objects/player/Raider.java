@@ -12,7 +12,7 @@ public class Raider extends Player {
 	
 	public Raider(GameWorld parent) {
 		super(parent, 50, 20, 100, 100, 1F, 70);
-		initVelocity(0, 0, 0.03f, 1F);
+		initVelocity(0, 0, 0.003f, 0.98F);
 	}
 
 	@Override

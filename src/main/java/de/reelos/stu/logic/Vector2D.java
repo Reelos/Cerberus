@@ -57,22 +57,24 @@ public class Vector2D {
 	public void addToX(float toX) {
 		if(xChange >= limitation) {
 			if (Math.abs(toX + modX) < limit) {
-				modX += modX * toX > 0 ? modX  * toX : 0.025f;
+				modX += (modX * toX != 0 ? modX  * toX : (toX < 0 ? -1 : 1) * 0.025f);
 			} else {
 				modX = toX > 0 ? limit : limit * -1;
 			}
 			xChange = 0;
 		}
+		System.out.println(toX + " " + modX + " " + modX * toX);
 	}
 
 	public void addToY(float toY) {
 		if(yChange >= limitation) {
 			if (Math.abs(toY + modY) < limit) {
-				modY += modY * toY > 0? modY * toY : 0.025f;
+				modY += (modY * toY != 0 ? modY * toY : (toY < 0 ? -1 : 1) * 0.025f);
 			} else {
 				modY = toY > 0 ? limit : limit * -1;
 			}
 			yChange = 0;
 		}
+		System.out.println(toY + " " + modY + " " + modY * toY);
 	}
 }

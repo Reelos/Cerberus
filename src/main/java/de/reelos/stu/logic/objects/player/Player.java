@@ -150,14 +150,14 @@ public abstract class Player extends GameObject {
 		accX += delta;
 		accY += delta;
 		if (left) {
-			getVelocity().addToX(-0.03f);
+			getVelocity().addToX(-0.008f);
 		} else if (right) {
-			getVelocity().addToX(0.03f);
+			getVelocity().addToX(0.008f);
 		}
 		if (up) {
-			getVelocity().addToY(-0.03f);
+			getVelocity().addToY(-0.008f);
 		} else if (down) {
-			getVelocity().addToY(0.03f);
+			getVelocity().addToY(0.008f);
 		}
 		if (accX >= objTick - Math.abs(getXSpeed())) {
 			x += (velocity.getXVelocity() > 0 ? 1 : (velocity.getXVelocity() < 0 ? -1 : 0));
