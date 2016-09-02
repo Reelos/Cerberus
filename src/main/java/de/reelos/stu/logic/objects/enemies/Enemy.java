@@ -2,6 +2,7 @@ package de.reelos.stu.logic.objects.enemies;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Vector2D;
@@ -13,6 +14,7 @@ public abstract class Enemy extends GameObject {
 	private float fireDelay = 3f;
 	private float fireTimer = 0f;
 	private GameWorld parent;
+	protected Image image = null;
 
 	public Enemy(GameWorld parent, int x, int y, int height, int width) {
 		this(parent, x, y, height, width, (height * width) / 2, -0.89f, 0f);
@@ -22,6 +24,15 @@ public abstract class Enemy extends GameObject {
 		super(x, y, height, width, life, new Vector2D(-0.1f, 0, 1f));
 		super.initVelocity(xm, ym, 0.01f, 20);
 		this.parent = parent;
+	}
+	
+	public void drawMe(Graphics g) {
+		try {	
+			g.drawImage(image , x, y, width, height, null);
+		} catch (Exception e) {
+			super.drawMe(g);
+		}
+		drawHealth(g);
 	}
 	
 	public void drawHealth(Graphics g) {
