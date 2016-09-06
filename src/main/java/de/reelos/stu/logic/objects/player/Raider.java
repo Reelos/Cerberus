@@ -1,5 +1,6 @@
 package de.reelos.stu.logic.objects.player;
 
+
 import java.io.IOException;
 
 import javax.imageio.ImageIO;

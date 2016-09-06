@@ -1,6 +1,5 @@
 package de.reelos.stu.gui;
 
-import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;

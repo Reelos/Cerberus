@@ -10,11 +10,10 @@ import javax.swing.JPanel;
 
 import de.reelos.stu.MainWindow;
 import de.reelos.stu.logic.GameWorld;
-import de.reelos.stu.logic.objects.Bullet;
 import de.reelos.stu.logic.objects.Boost.BoostType;
+import de.reelos.stu.logic.objects.Bullet;
 import de.reelos.stu.logic.objects.enemies.UFO;
 import de.reelos.stu.logic.objects.player.Player;
-
 
 public class FieldPanel extends JPanel implements Runnable {
 

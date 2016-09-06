@@ -8,7 +8,6 @@ import de.reelos.stu.logic.Wave;
 import de.reelos.stu.logic.objects.enemies.Carrier;
 import de.reelos.stu.logic.objects.enemies.UFO;
 
-
 public class TrainingLevel extends GameWorld {
 	private List<Wave> waves = Arrays.asList(
 			new Wave(new Carrier(this, GameWorld.WORLD_X - 1, GameWorld.WORLD_Y / 2 - 10)),

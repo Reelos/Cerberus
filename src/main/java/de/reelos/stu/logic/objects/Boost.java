@@ -5,7 +5,6 @@ import java.awt.Color;
 import de.reelos.stu.logic.Vector2D;
 import de.reelos.stu.logic.objects.player.Player;
 
-
 public class Boost extends GameObject {
 
 	private float tio = 0f, ta = 0f, tiom = 5.0f, tam = 5.0f;

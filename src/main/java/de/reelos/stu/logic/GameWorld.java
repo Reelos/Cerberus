@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import de.reelos.stu.logic.objects.Boost;
-import de.reelos.stu.logic.objects.GameObject;
 import de.reelos.stu.logic.objects.Boost.BoostType;
+import de.reelos.stu.logic.objects.GameObject;
 import de.reelos.stu.logic.objects.GameObject.GOType;
 import de.reelos.stu.logic.objects.enemies.UFO;
 import de.reelos.stu.logic.objects.player.Player;
-
 
 public class GameWorld {
 	public static final int WORLD_X = 600;
