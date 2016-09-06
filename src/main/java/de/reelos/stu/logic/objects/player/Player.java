@@ -2,7 +2,6 @@ package de.reelos.stu.logic.objects.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -67,7 +66,6 @@ public abstract class Player extends GameObject {
 	private int firePower = 20, shield = 0, shieldMax = 0;
 	private float shootSpeed = 0.99f, shootTimeOut = 0.5f, lastShoot, lastHit, rechargeDelay = 1f;
 	private boolean fireState = false, up = false, down = false, left = false, right = false;
-	protected Image image = null;
 	private GameWorld parent;
 
 	private List<Boost> boostList = new ArrayList<>();

@@ -2,6 +2,7 @@ package de.reelos.stu.logic.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import de.reelos.stu.logic.GameWorld;
 import de.reelos.stu.logic.Vector2D;
@@ -15,6 +16,7 @@ public abstract class GameObject {
 	protected Vector2D velocity = new Vector2D(0,0,0);
 	protected int height, width, x, y, life, maxlife;
 	protected boolean isRemovable = false;
+	protected Image image = null;
 	private float tick = 0f;
 	private GameObject lastHitted = null;
 
@@ -31,6 +33,10 @@ public abstract class GameObject {
 	public void drawMe(Graphics g) {
 		g.setColor(getColor());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
+	}
+	
+	public Image getImage() {
+		return image;
 	}
 	
 	public void initVelocity(float x, float y, float depletion, float limit) {

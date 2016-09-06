@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import de.reelos.stu.gui.FieldPanel;
+import de.reelos.stu.gui.MachineSelect;
 import de.reelos.stu.gui.StartScreen;
 import de.reelos.stu.level.TrainingLevel;
 import de.reelos.stu.logic.GameWorld;
@@ -22,6 +23,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 201606151555L;
 	private JPanel panel;
 	private FieldPanel levelPanel;
+	private MachineSelect machineSel;
 	private Player active = new Carrier(null);
 	private GameWorld selectedLevel = new TrainingLevel();
 
@@ -59,5 +61,15 @@ public class MainWindow extends JFrame {
 		addKeyListener(active.control);
 		levelPanel.addKeyListener(active.control);
 		levelPanel.start();
+	}
+	
+	public void machineSelect() {
+		machineSel = new MachineSelect(this,active);
+		machineSel.setBackground(Color.black);
+		remove(panel);
+		add(machineSel);
+		revalidate();
+		repaint();
+		machineSel.requestFocus();
 	}
 }

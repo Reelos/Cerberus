@@ -17,7 +17,7 @@ public class StartScreen extends JPanel {
 	 */
 	private static final long serialVersionUID = 201606281236L;
 	private JButton levelButton = new JButton("Level Auswahl");
-	private JButton upgradeButton = new JButton("Upgrades");
+	private JButton machineButton = new JButton("Schiff auswählen");
 	private JButton exitButton = new JButton("Verlassen");
 	private MainWindow parent;
 
@@ -29,11 +29,12 @@ public class StartScreen extends JPanel {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		levelButton.setAlignmentX(CENTER_ALIGNMENT);
 		levelButton.addActionListener(a -> parent.startLevel());
-		upgradeButton.setAlignmentX(CENTER_ALIGNMENT);
+		machineButton.setAlignmentX(CENTER_ALIGNMENT);
+		machineButton.addActionListener(a -> parent.machineSelect());
 		exitButton.setAlignmentX(CENTER_ALIGNMENT);
 		exitButton.addActionListener(a -> parent.dispose());
 		panel.add(levelButton);
-		panel.add(upgradeButton);
+		panel.add(machineButton);
 		panel.add(exitButton);
 		super.add(panel, BorderLayout.SOUTH);
 	}
