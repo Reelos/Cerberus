@@ -16,7 +16,7 @@ public class Boost extends GameObject {
 		private BoostType(Color color) {
 			this.color = color;
 		}
-		
+
 		public Color color() {
 			return color;
 		}
