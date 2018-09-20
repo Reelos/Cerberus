@@ -4,28 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import de.reelos.stu.logic.Boost.BoostType;
-import de.reelos.stu.logic.GameObject.GOType;
+import de.reelos.stu.logic.objects.Boost;
+import de.reelos.stu.logic.objects.Boost.BoostType;
+import de.reelos.stu.logic.objects.GameObject;
+import de.reelos.stu.logic.objects.GameObject.GOType;
+import de.reelos.stu.logic.objects.enemies.UFO;
+import de.reelos.stu.logic.objects.player.Player;
 
 public class GameWorld {
 	public static final int WORLD_X = 600;
 	public static final int WORLD_Y = 450;
 
+	protected float spawnTime = 0f, spawnPause = 1.0f;
 	private int score = 0, boostChance = 1;
-	private float spawnTime = 0f;
-	private float spawnPause = 1.0f;
 	private Random posRandom = new Random(), boostRandom = new Random();
 	private List<GameObject> objects = new ArrayList<>();
 	private int oc = 0;
+	protected boolean levelClear = false;
 
 	public void update(float delta) {
 		spawnTime += delta;
 		if (spawnTime >= spawnPause) {
-			GameObject tmp = spawnObject();
-			if (tmp != null && oc < 20) {
-				objects.add(tmp);
-				oc++;
-			}
+			spawnWave();
 			if (boostRandom.nextInt(10) <= boostChance) {
 				Boost boost = spawnBoost();
 				if (boost != null) {
@@ -47,6 +47,9 @@ public class GameWorld {
 				}
 			}
 			if (go.isRemovable()) {
+				if(go.getType() == GOType.PLAYER) {
+					levelClear = true;
+				}
 				objects.remove(go);
 				if (go.lastHit() != null)
 					if (go.getType() == GOType.METROID
@@ -69,19 +72,21 @@ public class GameWorld {
 		return objects;
 	}
 
+	protected void spawnWave() {
+		GameObject tmp = spawnObject();
+		if (tmp != null && oc < 20) {
+			objects.add(tmp);
+			oc++;
+		}
+		resetTime();
+	}
+
 	private GameObject spawnObject() {
 		GameObject ret = null;
 		if (objects.size() < 20) {
-			int width = 20;
-			int height = 20;
 			int x = posRandom.nextInt(WORLD_X);
 			int y = posRandom.nextInt(WORLD_Y);
-			int life = posRandom.nextInt(height + width) + 1;
-			int dirX = posRandom.nextInt(3) - 2;
-			int dirY = posRandom.nextInt(3) - 2;
-			float xm = posRandom.nextFloat() - 0.8f;
-			float ym = posRandom.nextFloat() - 0.8f;
-			GameObject temp = new GameObject(x, y, height, width, life, dirX, dirY, xm, ym);
+			GameObject temp = new UFO(this, x, y);
 			for (GameObject go : objects) {
 				if (temp.checkPos(go)) {
 					ret = spawnObject();
@@ -90,8 +95,11 @@ public class GameWorld {
 			}
 			ret = temp;
 		}
-		spawnTime = 0f;
 		return ret;
+	}
+
+	public void resetTime() {
+		spawnTime = 0f;
 	}
 
 	public Boost boost() {
@@ -104,5 +112,17 @@ public class GameWorld {
 		int y = posRandom.nextInt(WORLD_Y);
 		ret = new Boost(x, y, 10, 10, BoostType.values()[posRandom.nextInt(BoostType.values().length)]);
 		return ret;
+	}
+
+	public void setPlayer(Player player) {
+		if (objects.stream().anyMatch(p -> p.getType() == GOType.PLAYER)) {
+			objects.remove(objects.stream().filter(p -> p.getType() == GOType.PLAYER).findFirst().orElse(null));
+		}
+		objects.add(player);
+		player.reset();
+	}
+
+	public boolean isClear() {
+		return levelClear;
 	}
 }

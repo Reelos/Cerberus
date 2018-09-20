@@ -1,6 +1,9 @@
-package de.reelos.stu.logic;
+package de.reelos.stu.logic.objects;
 
 import java.awt.Color;
+
+import de.reelos.stu.logic.Vector2D;
+import de.reelos.stu.logic.objects.player.Player;
 
 public class Boost extends GameObject {
 
@@ -9,7 +12,7 @@ public class Boost extends GameObject {
 	private boolean inActive = false;
 
 	public enum BoostType {
-		ACCELARATION(Color.GREEN), FIRERATE(Color.CYAN), SHOOTDAMAGE(Color.RED), SHOOTACCELARATION(Color.ORANGE);
+		ACCELARATION(Color.GREEN), FIRERATE(Color.CYAN), SHOOTDAMAGE(Color.RED), SHOOTACCELARATION(Color.ORANGE), EXTRASHOOT(Color.YELLOW);
 		
 		private Color color = Color.WHITE;
 		
@@ -25,7 +28,7 @@ public class Boost extends GameObject {
 	private BoostType type = null;
 
 	public Boost(int x, int y, int height, int width, BoostType type) {
-		super(x, y, height, width, 1, 0, 0, 0, 0);
+		super(x, y, height, width, 1, new Vector2D(0,0,0));
 		this.type = type;
 	}
 
